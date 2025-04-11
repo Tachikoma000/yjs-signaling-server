@@ -1,0 +1,16 @@
+{
+  "name": "yjs-signaling-server",
+  "version": "1.0.0",
+  "description": "WebRTC signaling server for Canvas Notes App",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "dependencies": {
+    "ws": "^8.14.2",
+    "y-webrtc": "^10.3.0"
+  }
+}
