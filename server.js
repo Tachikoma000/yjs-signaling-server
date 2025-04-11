@@ -1,44 +1,44 @@
-const { WebSocketServer } = require('ws')
-const http = require('http')
-const { setupWSConnection } = require('y-webrtc/bin/utils')
+#!/usr/bin/env node
+
+import * as Y from 'yjs';
+import { Server } from 'ws';
+import http from 'http';
+import { setupWSConnection } from 'y-websocket/bin/utils.js';
+
+const PORT = process.env.PORT || 4444;
 
 // Create an HTTP server
 const server = http.createServer((request, response) => {
-  response.writeHead(200, { 'Content-Type': 'text/plain' })
-  response.end('Y-WebRTC Signaling Server for Canvas Notes App\n')
-})
+  response.writeHead(200, { 'Content-Type': 'text/plain' });
+  response.end('Canvas Notes App Signaling Server\n');
+});
 
-// Create a WebSocket server
-const wss = new WebSocketServer({ server })
+// Create a WebSocket server attached to the HTTP server
+const wss = new Server({ server });
 
-// Handle WebSocket connections
 wss.on('connection', (conn, req) => {
-  console.log(`New connection established from ${req.socket.remoteAddress}`)
+  const remoteAddress = req.socket.remoteAddress;
+  console.log(`New connection from ${remoteAddress}`);
   
-  // Set up connection with y-webrtc
-  setupWSConnection(conn, req)
+  // Setup connection with y-websocket
+  setupWSConnection(conn, req, { gc: true });
   
   conn.on('close', () => {
-    console.log('Connection closed')
-  })
-})
+    console.log(`Connection from ${remoteAddress} closed`);
+  });
+});
 
-// Set up error handling
-wss.on('error', (error) => {
-  console.error('WebSocket server error:', error)
-})
-
-// Listen on the specified port or default to 4444
-const PORT = process.env.PORT || 4444
 server.listen(PORT, () => {
-  console.log(`Signaling server running on port ${PORT}`)
-})
+  console.log(`Signaling server running on port ${PORT}`);
+});
 
 // Handle graceful shutdown
 process.on('SIGINT', () => {
-  console.log('Shutting down server')
+  console.log('Shutting down server');
   wss.close(() => {
-    console.log('WebSocket server closed')
-    process.exit(0)
-  })
-})
+    console.log('WebSocket server closed');
+    process.exit(0);
+  });
+});
+
+console.log('Signaling server started');

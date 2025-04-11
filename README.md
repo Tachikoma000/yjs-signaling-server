@@ -1,13 +1,14 @@
-# Canvas Notes App Signaling Server
+# Canvas Notes App WebSocket Server
 
-A WebRTC signaling server for the Canvas Notes App built with y-webrtc.
+A collaboration server for the Canvas Notes App built with y-websocket.
 
 ## Purpose
 
-This server facilitates WebRTC connections between users of the Canvas Notes App by:
-- Helping peers discover each other 
-- Exchanging connection information between peers
-- Enabling reliable connections across different networks
+This server enables real-time collaboration in the Canvas Notes App by:
+- Synchronizing document changes between users
+- Facilitating connections between users on different networks
+- Providing a reliable communication channel for real-time collaboration
+- Supporting both WebRTC signaling and direct WebSocket connections
 
 ## Deployment
 
@@ -20,8 +21,13 @@ This server is designed to be deployed on [Render.com](https://render.com):
    - Build Command: `npm install`
    - Start Command: `npm start`
    - Plan: Free
+   - Environment Variables: None required
 
 The service will be available at a URL like `https://canvas-notes-signaling-server.onrender.com`
+
+### Node Version Note
+
+This server requires Node.js version between 16.x and 18.x (as specified in the package.json `engines` field).
 
 ## Local Development
 
